@@ -1,12 +1,24 @@
 import {
 	APIEmbed,
+	APIEmbedField,
+	APITextInputComponent,
 	ActionRowBuilder,
 	CommandInteraction,
+	EmbedBuilder,
+	ModalBuilder,
+	ModalSubmitInteraction,
 	StringSelectMenuBuilder,
 	StringSelectMenuInteraction,
-	StringSelectMenuOptionBuilder
+	StringSelectMenuOptionBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+	userMention
 } from 'discord.js';
-import { Discord, SelectMenuComponent, Slash } from 'discordx';
+import { Discord, ModalComponent, SelectMenuComponent, Slash } from 'discordx';
+import NodeCache from 'node-cache';
+import { prisma } from '..';
+import Colors from '../constants/Colors';
+import { prettify } from '../lib/General';
 
 require('toml-require').install();
 const embeds: {
@@ -19,7 +31,10 @@ interface TicketType {
 	title: string;
 	category: string;
 	description?: string;
+	forms: APITextInputComponent[];
 }
+
+const cache = new NodeCache({ stdTTL: 30 });
 
 @Discord()
 class SendMenu {
@@ -53,14 +68,80 @@ class SendMenu {
 
 	@SelectMenuComponent({ id: 'ticket-menu' })
 	async handle(interaction: StringSelectMenuInteraction): Promise<unknown> {
-		await interaction.deferReply();
-
 		const ticketValue = interaction.values.shift();
 
-		interaction.editReply({
-			content: ticketValue
+		const ticketInformation: TicketType = tickets[ticketValue];
+
+		const modal = new ModalBuilder().setTitle(ticketInformation.title).setCustomId('ticket-menu');
+
+		const forms: ActionRowBuilder<TextInputBuilder>[] = [];
+
+		ticketInformation.forms.forEach((v) => {
+			const form = TextInputBuilder.from(v).setStyle(TextInputStyle.Short);
+			forms.push(new ActionRowBuilder<TextInputBuilder>().addComponents(form));
 		});
 
+		modal.addComponents(forms);
+
+		interaction.showModal(modal);
+
+		cache.set(interaction.user.id, ticketValue);
+
 		return;
+	}
+
+	@ModalComponent({ id: 'ticket-menu' })
+	async handleForm(interaction: ModalSubmitInteraction): Promise<void> {
+		let fields: APIEmbedField[] = [];
+		interaction.fields.fields.forEach((field) => {
+			fields.push({
+				name: prettify(field.customId),
+				value: field.value
+			});
+		});
+
+		interaction.deferUpdate();
+
+		const ticketType: string = cache.get(interaction.user.id);
+		const ticketInformation: TicketType = tickets[ticketType];
+
+		const count = await prisma.tickets.count({
+			where: {
+				type: ticketType
+			}
+		});
+
+		const ticketChannel = await interaction.guild.channels.create({
+			name: `${ticketType}-${count}`,
+			parent: ticketInformation.category
+		});
+
+		// Update permissions
+		ticketChannel.lockPermissions();
+		ticketChannel.permissionOverwrites.create(interaction.user.id, {
+			ViewChannel: true,
+			ReadMessageHistory: true,
+			AttachFiles: true,
+			SendMessages: true
+		});
+
+		await prisma.tickets.create({
+			data: {
+				id: ticketChannel.id,
+				createdBy: interaction.user.id,
+				type: ticketType
+			}
+		});
+
+		const type = prettify(ticketType);
+		const embed = new EmbedBuilder()
+			.setColor(Colors.purple)
+			.setTitle(`${type} Ticket`)
+			.setFields(fields);
+
+		ticketChannel.send({
+			content: userMention(interaction.user.id),
+			embeds: [embed]
+		});
 	}
 }

@@ -16,4 +16,5 @@ model Tickets {
   id String @id
   createdAt DateTime @default(now())
   createdBy String
+  type String
 }

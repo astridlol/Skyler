@@ -2,9 +2,24 @@
 title = "Claim your level roles"
 category = "1169287372349902978"
 
+[[levels.forms]]
+label = "Which level role?" 
+required = true
+custom_id = "role"
+
 [reports]
 title = "Report a member"
 category = "1169287372349902978"
+
+[[reports.forms]]
+label = "Name of the member?" 
+required = true
+custom_id = "name"
+
+[[reports.forms]]
+label = "What did they do?" 
+required = true
+custom_id = "reason"
 
 [roles]
 title = "Get a content creator role"

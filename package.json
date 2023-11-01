@@ -26,6 +26,7 @@
 		"discord.js": "^14.2.0",
 		"discordx": "^11.1.9",
 		"dotenv": "^16.0.1",
+		"node-cache": "^5.1.2",
 		"reflect-metadata": "^0.1.13",
 		"toml-require": "^1.2.0",
 		"ts-node": "^10.9.1",
