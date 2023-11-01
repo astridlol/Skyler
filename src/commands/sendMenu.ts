@@ -17,15 +17,15 @@ import {
 import { Discord, ModalComponent, SelectMenuComponent, Slash } from 'discordx';
 import NodeCache from 'node-cache';
 import { prisma } from '..';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import { prettify } from '../lib/General';
 
 require('toml-require').install();
 const embeds: {
 	menu: APIEmbed;
-} = require('../constants/embeds.toml');
+} = require('../../constants/embeds.toml');
 
-const tickets = require('../constants/tickets.toml');
+const tickets = require('../../constants/tickets.toml');
 
 interface TicketType {
 	title: string;
