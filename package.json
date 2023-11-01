@@ -16,7 +16,8 @@
 	"license": "ISC",
 	"devDependencies": {
 		"prettier": "^2.8.8",
-		"prisma": "^4.10.1"
+		"prisma": "^4.10.1",
+		"tsc-hooks": "^1.1.2"
 	},
 	"dependencies": {
 		"@discordx/importer": "^1.1.10",

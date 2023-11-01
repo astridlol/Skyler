@@ -467,6 +467,11 @@ jackspeak@^2.0.3:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
+json5@^2.2.0:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
+
 lodash.snakecase@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
@@ -699,6 +704,13 @@ ts-node@^10.9.1:
     make-error "^1.1.1"
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
+
+tsc-hooks@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/tsc-hooks/-/tsc-hooks-1.1.2.tgz#1ed8d942b712b90cf411f995be83ba2ae168fcd5"
+  integrity sha512-U3RvEYOZAdCWKT3apcV3UOgsIUMXUzKntqX/jiE3/w3MPuvwk9Yjl5i1Z9rxLBht4LI6x6xkUJpQ5kHKidBjtw==
+  dependencies:
+    json5 "^2.2.0"
 
 tslib@^1.9.3:
   version "1.14.1"
