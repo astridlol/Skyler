@@ -10,7 +10,7 @@ import {
 } from 'discord.js';
 import { Discord, Slash, SlashOption } from 'discordx';
 import { client, prisma } from '..';
-import Colors from '../../constants/Colors';
+import Colors from '../constants/Colors';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { env } from '../env/server';
@@ -97,7 +97,7 @@ class Close {
 			components: [row]
 		});
 
-		interaction.editReply({
+		await interaction.editReply({
 			content: 'Closed ticket!'
 		});
 
