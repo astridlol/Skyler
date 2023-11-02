@@ -1,0 +1,11 @@
+version: '3'
+services:
+  powfu-tickets:
+    container_name: powfu-tickets
+    image: ghcr.io/astridlol/skyler:main
+    env_file:
+      - ./.env
+    restart: always
+    volumes:
+      - $PWD/tickets.toml:/app/dist/src/constants/tickets.toml
+      - $PWD/embeds.toml:/app/dist/src/constants/embeds.toml
