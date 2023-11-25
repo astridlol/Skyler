@@ -105,14 +105,9 @@ class SendMenu {
 		const ticketType: string = cache.get(interaction.user.id);
 		const ticketInformation: TicketType = tickets[ticketType];
 
-		const count = await prisma.tickets.count({
-			where: {
-				type: ticketType
-			}
-		});
-
+		const id = Math.random().toString(36).slice(2, 7);
 		const ticketChannel = await interaction.guild.channels.create({
-			name: `${ticketType}-${count}`,
+			name: `${ticketType}-${id}`,
 			parent: ticketInformation.category
 		});
 
