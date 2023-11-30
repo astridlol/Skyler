@@ -120,14 +120,6 @@ class SendMenu {
 			SendMessages: true
 		});
 
-		await prisma.tickets.create({
-			data: {
-				id: ticketChannel.id,
-				createdBy: interaction.user.id,
-				type: ticketType
-			}
-		});
-
 		const type = prettify(ticketType);
 		const embed = new EmbedBuilder()
 			.setColor(Colors.purple)
@@ -137,6 +129,14 @@ class SendMenu {
 		ticketChannel.send({
 			content: userMention(interaction.user.id),
 			embeds: [embed]
+		});
+
+		await prisma.tickets.create({
+			data: {
+				id: ticketChannel.id,
+				createdBy: interaction.user.id,
+				type: ticketType
+			}
 		});
 	}
 }
