@@ -17,3 +17,6 @@ prisma/*
 !prisma/schema.prisma
 
 yarn-error.log
+
+src/constants/*
+!src/constants/Colors.ts

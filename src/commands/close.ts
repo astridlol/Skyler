@@ -47,6 +47,7 @@ class Close {
 		interaction: CommandInteraction
 	) {
 		await interaction.deferReply();
+
 		const ticket = await prisma.tickets.findUnique({
 			where: {
 				id: interaction.channelId
@@ -54,9 +55,8 @@ class Close {
 		});
 
 		if (ticket == null) {
-			await interaction.reply({
-				content: 'You can only run this command inside of ticket',
-				ephemeral: true
+			await interaction.editReply({
+				content: 'You can only run this command inside of ticket'
 			});
 			return;
 		}

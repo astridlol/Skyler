@@ -31,6 +31,7 @@ interface TicketType {
 	title: string;
 	category: string;
 	description?: string;
+	message?: string;
 	forms: APITextInputComponent[];
 }
 
@@ -126,8 +127,13 @@ class SendMenu {
 			.setTitle(`${type} Ticket`)
 			.setFields(fields);
 
+		const mention = userMention(interaction.user.id);
+		let messageContent = ticketInformation.message
+			? `${ticketInformation.message}\n${mention}`
+			: mention;
+
 		ticketChannel.send({
-			content: userMention(interaction.user.id),
+			content: messageContent,
 			embeds: [embed]
 		});
 
